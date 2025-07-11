@@ -3,15 +3,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from database import db
 from fastapi import HTTPException
 import os
+from dotenv import load_dotenv
 
 app = FastAPI()
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '.env'))
 
-FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN", "http://localhost:3000")
+FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN")
 
 # CORS settings for frontend-backend communication
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[FRONTEND_ORIGIN],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
